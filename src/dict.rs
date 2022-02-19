@@ -27,7 +27,6 @@ pub fn dict<'a>(contains: &[Contains], words: Option<Vec<&'a str>>) -> Vec<&'a s
 
 	let mut words = words.filter(|x| {
 		for cond in contains {
-			println!("{cond:?}");
 			match cond {
 				Contains::No(chr) if x.chars().any(|v| &v == chr) => return false,
 				Contains::Some(chr, pos) if !x.chars().any(|v| &v == chr) || x.chars().nth(*pos).unwrap() == *chr => return false,
