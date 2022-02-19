@@ -5,8 +5,11 @@ A CLI tool to help you solve Wordle riddles!
 Syntax:
 
 `+c` => Character exactly at position
+
 `^c` => Some character, not in this position
+
 `*c` => In word, but not in this position
+
 `!c` => Not in any position
 
 So something like:
