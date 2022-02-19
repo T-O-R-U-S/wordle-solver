@@ -1,3 +1,5 @@
+use std::collections::HashSet;
+
 /// Tells the guesser that it contains
 /// zero of XYZ letter, some letter in
 /// an unknown position, and some letter
@@ -23,7 +25,7 @@ pub fn dict<'a>(contains: &[Contains], words: Option<Vec<&'a str>>) -> Vec<&'a s
 		Some(words) => words.into_iter()
 	};
 
-	words.filter(|x| {
+	let mut words = words.filter(|x| {
 		for cond in contains {
 			match cond {
 				Contains::No(chr) if x.chars().any(|v| &v == chr) => return false,
@@ -34,5 +36,19 @@ pub fn dict<'a>(contains: &[Contains], words: Option<Vec<&'a str>>) -> Vec<&'a s
 			}
 		}
 		true
-	 }).collect::<Vec<&str>>()
+	 }).collect::<Vec<&str>>();
+
+	words.sort_by(|a, b| {
+		let mut a_set = HashSet::new();
+		let mut b_set = HashSet::new();
+		for x in a.chars() {
+			a_set.insert(x);
+		}
+		for x in b.chars() {
+			b_set.insert(x);
+		}
+		a_set.len().partial_cmp(&b_set.len()).unwrap()
+	});
+
+	words
 }

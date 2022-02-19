@@ -49,7 +49,8 @@ fn main() {
         dict = Option::Some(dict::dict(&criteria, dict));
 
         println!(
-            "{dict:#?}\n\nGuesses: {} from {}",
+            "{}\n\nGuesses: {} from {}",
+            dict.as_ref().unwrap().join("\n"),
             dict.as_ref().unwrap().len(),
             dict::initial().len()
         );
