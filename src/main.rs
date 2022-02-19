@@ -49,10 +49,12 @@ fn main() {
         dict = Option::Some(dict::dict(&criteria, dict));
 
         println!(
-            "List of suggestions:\n\n{}\n\nGuesses: {} from {}\n",
+            "List of suggestions:\n\n{}\n\nGuesses: {} from {}\n\n",
             dict.as_ref().unwrap().join("\n"),
             dict.as_ref().unwrap().len(),
             dict::initial().len()
         );
+
+        println!("Top pick: {:?}", dict.as_ref().unwrap()[dict.as_ref().unwrap().len()-1]);
     }
 }
