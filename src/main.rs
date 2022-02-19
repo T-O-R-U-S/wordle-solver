@@ -6,11 +6,16 @@ use std::io::stdin;
 use std::io::Read;
 
 fn main() {
-    let mut criteria = vec![];
+    let mut dict: Option<Vec<&str>> = None;
     loop {
+        let mut criteria = vec![];
         let mut input = String::with_capacity(10);
 
         stdin().read_line(&mut input).unwrap();
+
+        if &input == "exit\n" {
+            std::process::exit(0)
+        }
 
         let mut input = input.trim().chars().enumerate();
 
@@ -37,11 +42,11 @@ fn main() {
             }
         }
 
-        let dict = dict::dict(&criteria);
+        dict = Option::Some(dict::dict(&criteria, dict));
 
         println!(
             "{dict:#?}\n\nGuesses: {} from {}",
-            dict.len(),
+            dict.as_ref().unwrap().len(),
             dict::initial().len()
         );
     }

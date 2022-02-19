@@ -14,11 +14,14 @@ pub fn initial() -> Vec<&'static str> {
 	include_str!("../words.txt").split("\n").collect::<Vec<&str>>()
 }
 
-pub fn dict(contains: &[Contains]) -> Vec<&str> {
+pub fn dict<'a>(contains: &[Contains], words: Option<Vec<&'a str>>) -> Vec<&'a str> {
 	// We know that all the words in words.txt are
 	// already 5-characters long, so we don't
 	// need to filter them.
-	let words = include_str!("../words.txt").split("\n").into_iter();
+	let words = match words {
+		None => include_str!("../words.txt").split("\n").collect::<Vec<&str>>().into_iter(),
+		Some(words) => words.into_iter()
+	};
 
 	words.filter(|x| { 
 		for cond in contains {
