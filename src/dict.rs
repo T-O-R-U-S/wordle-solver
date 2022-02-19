@@ -6,7 +6,7 @@
 pub enum Contains {
 	No(char),
 	NoneAt(char, usize),
-	Some(char),
+	Some(char, usize),
 	Exact(char, usize),
 }
 
@@ -23,11 +23,11 @@ pub fn dict<'a>(contains: &[Contains], words: Option<Vec<&'a str>>) -> Vec<&'a s
 		Some(words) => words.into_iter()
 	};
 
-	words.filter(|x| { 
+	words.filter(|x| {
 		for cond in contains {
 			match cond {
 				Contains::No(chr) if x.chars().any(|v| &v == chr) => return false,
-				Contains::Some(chr) if !x.chars().any(|v| &v == chr) => return false,
+				Contains::Some(chr, pos) if !x.chars().any(|v| &v == chr) || x.chars().nth(*pos).unwrap() == *chr => return false,
 				Contains::Exact(chr, pos) if x.chars().nth(*pos).unwrap() != *chr => return false,
 				Contains::NoneAt(chr, pos) if x.chars().nth(*pos).unwrap() == *chr => return false,
 				_ => {}

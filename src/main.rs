@@ -17,6 +17,11 @@ fn main() {
             std::process::exit(0)
         }
 
+        if &input == "reset\n" {
+            dict = None;
+            continue
+        }
+
         let mut input = input.trim().chars().enumerate();
 
         while let Option::Some((_, op)) = input.next() {
@@ -30,14 +35,13 @@ fn main() {
                     criteria.push(NoneAt(chr, (chr_pos - 1) / 2));
                 }
                 '!' => {
-                    let (chr_pos, chr) = input.next().unwrap();
+                    let (_, chr) = input.next().unwrap();
                     criteria.push(No(chr));
                 }
                 '^' => {
                     let (chr_pos, chr) = input.next().unwrap();
-                    criteria.push(Some(chr));
+                    criteria.push(Some(chr, (chr_pos - 1) / 2));
                 },
-                chr @ 'a'..='z' => criteria.push(Some(chr)),
                 inp => panic!("didn't expect {inp}"),
             }
         }
