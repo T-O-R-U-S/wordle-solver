@@ -3,7 +3,6 @@ mod dict;
 use dict::Contains::*;
 
 use std::io::stdin;
-use std::io::Read;
 
 fn main() {
     let mut dict: Option<Vec<&str>> = None;
