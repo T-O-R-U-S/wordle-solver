@@ -41,14 +41,63 @@ pub fn dict<'a>(contains: &[Contains], words: Option<Vec<&'a str>>) -> Vec<&'a s
 	words.sort_by(|a, b| {
 		let mut a_set = HashSet::new();
 		let mut b_set = HashSet::new();
+
+		let mut a_weight = 0;
+		let mut b_weight = 0;
+
 		for x in a.chars() {
 			a_set.insert(x);
 		}
 		for x in b.chars() {
 			b_set.insert(x);
 		}
-		a_set.len().partial_cmp(&b_set.len()).unwrap()
+
+		a_weight += a_set.len();
+		b_weight += b_set.len();
+
+		for letter in a_set {
+			a_weight += letter_weight(letter);
+		}
+
+		for letter in b_set {
+			b_weight += letter_weight(letter);
+		}
+
+		a_weight.partial_cmp(&b_weight).unwrap()
 	});
 
 	words
+}
+
+fn letter_weight(letter: char) -> usize {
+	match letter {
+		'e' => 25,
+		'a' => 24,
+		'r' => 23,
+		'i' => 22,
+		'o' => 21,
+		't' => 20,
+		'n' => 19,
+		's' => 18,
+		'l' => 17,
+		'c' => 16,
+		'u' => 15,
+		'd' => 14,
+		'p' => 13,
+		'm' => 12,
+		'h' => 11,
+		'g' => 10,
+		'b' => 9,
+		'f' => 8,
+		'y' => 7,
+		'w' => 6,
+		'k' => 5,
+		'v' => 4,
+		'x' => 3,
+		'z' => 2,
+		'j' => 1,
+		'q' => 0,
+		a if !a.is_alphabetic() => panic!("Not alphabetical"),
+		a => panic!("Unimplemented letter {a}")
+	}
 }

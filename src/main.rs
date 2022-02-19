@@ -18,6 +18,7 @@ fn main() {
         }
 
         if &input == "reset\n" {
+            println!("Resetting..!\n");
             dict = None;
             continue
         }
@@ -49,7 +50,7 @@ fn main() {
         dict = Option::Some(dict::dict(&criteria, dict));
 
         println!(
-            "{}\n\nGuesses: {} from {}",
+            "List of suggestions:\n\n{}\n\nGuesses: {} from {}\n",
             dict.as_ref().unwrap().join("\n"),
             dict.as_ref().unwrap().len(),
             dict::initial().len()
